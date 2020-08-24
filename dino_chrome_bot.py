@@ -10,6 +10,7 @@ import pygame
 
 X = 150
 X2 = 450
+
 Y1 = 390
 Y2 = 470
 
@@ -32,8 +33,11 @@ def detect_enemy(screen):
 
 
 def morte(screen):
-    pyautogui.press("space")
-    return screen.getpixel((890, 290)) == (83,83,83)
+    if(screen.getpixel((670, 370)) == (83,83,83)):
+        pyautogui.press("space")
+        return True
+    else:
+        return False
 
 def jump():
     pyautogui.press("up")
@@ -64,13 +68,13 @@ def evalfitness(genomes, config):
        screen = capture_screen()
        output = nets[0].activate(detect_enemy(screen))
 
-       if (output[0] > 0.5):
+       if (output[0] > 0):
            jump()
-       if (output[1] > 0.5):
+       if (output[1] > 0 ):
            down()
 
        if morte(screen) :
-           ge[0].fitness -= 5
+           ge[0].fitness -= 1
            ge.pop(0)
            nets.pop(0)
            break
